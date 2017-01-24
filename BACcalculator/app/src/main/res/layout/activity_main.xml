@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.timmcvicker.baccalculator.MainActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bacGuess"
+        android:hint="BAC as decimal"
+        android:selectAllOnFocus="true"
+        android:background="@android:drawable/editbox_background_normal"
+        android:textAlignment="center"
+        android:numeric="decimal" />
+
+    <TextView
+        android:text="Guess your BAC:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/guessLabel"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:layout_above="@+id/bacGuess"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="87dp" />
+
+    <Button
+        android:text="Go To Calculator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bacGuess"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:id="@+id/submitGuessButton"
+        android:onClick="submitGuess" />
+</RelativeLayout>
