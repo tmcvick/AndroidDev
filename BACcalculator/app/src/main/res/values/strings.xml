@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">BACcalculator</string>
+    <string name="what_is_your_gender">What is your gender?</string>
+    <string name="tell_us_about_yourself">Tell us about yourself:</string>
+    <string name="select_gender">Select your gender</string>
+    <string name="enter_your_drinks">Enter your drinks:</string>
+    <string name="volume_in_oz">Volume in Oz</string>
+    <string name="volume_of_one_drink">volume of one drink</string>
+    <string name="proof_of_drink">Proof of drink</string>
+    <string name="proof_as_whole_number">Proof as whole number</string>
+    <string name="add_drink">Add Drink</string>
+    <string name="number_of_drinks">Number of Drinks:</string>
+    <string name="how_long_have_you_been_drinking">How long have you been drinking?</string>
+    <string name="time_in_hours">Time in hours</string>
+    <string name="find_bac">Find BAC</string>
 </resources>

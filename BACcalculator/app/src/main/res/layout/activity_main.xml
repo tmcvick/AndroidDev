@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,32 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.timmcvicker.baccalculator.MainActivity">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/bacGuess"
-        android:hint="BAC as decimal"
-        android:selectAllOnFocus="true"
-        android:background="@android:drawable/editbox_background_normal"
-        android:textAlignment="center"
-        android:numeric="decimal" />
-
-    <TextView
-        android:text="Guess your BAC:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/guessLabel"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        android:layout_above="@+id/bacGuess"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="87dp" />
-
     <Button
         android:text="Go To Calculator"
         android:layout_width="wrap_content"
@@ -45,4 +20,50 @@
         android:layout_marginTop="14dp"
         android:id="@+id/submitGuessButton"
         android:onClick="submitGuess" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/bac"
+        android:id="@+id/imageView2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Guess your BAC:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/guessLabel"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="67dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/bacGuess"
+        android:hint="BAC as decimal"
+        android:selectAllOnFocus="true"
+        android:background="@android:drawable/editbox_background_normal"
+        android:textAlignment="center"
+        android:numeric="decimal"
+        android:layout_below="@+id/guessLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/mainToInfo"
+        android:background="@color/colorAccent"
+        android:onClick="goToInfo" />
 </RelativeLayout>

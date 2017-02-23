@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PersonActivity" />
+        <activity android:name=".DrinkActivity" />
+        <activity android:name=".FinalActivity" />
+        <activity android:name=".InfoActivity" />
     </application>
 
 </manifest>
