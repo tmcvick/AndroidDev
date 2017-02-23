@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.timmcvicker.todolist.NewActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/descriptionLabel"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="32sp"
+        android:text="Description:"
+        android:paddingTop="12dp"
+        android:paddingLeft="12dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:layout_below="@+id/descriptionLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/descriptionField"
+        android:hint="Input short description here"
+        android:singleLine="true"
+        android:selectAllOnFocus="true"
+        android:paddingLeft="12dp" />
+
+    <TextView
+        android:text="Priority:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/priorityLabel"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="32sp"
+        android:layout_below="@+id/descriptionField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="12dp"
+        android:paddingTop="12sp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/priorityLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/priorityRatingBar"
+        android:numStars="5"
+        android:isIndicator="false" />
+
+    <TextView
+        android:text="Due Date:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/priorityRatingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dateLabel"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="32sp"
+        android:paddingLeft="12sp"
+        android:paddingTop="12dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:layout_below="@+id/dateLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dateField"
+        android:paddingLeft="12dp"
+        android:hint="mm/dd"
+        android:singleLine="true"
+        android:selectAllOnFocus="true" />
+
+    <Button
+        android:text="Create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button"
+        android:textSize="14sp" />
+</RelativeLayout>
