@@ -2,10 +2,16 @@ package com.timmcvicker.todolist;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Data object that represents an item in the todolist
@@ -27,8 +33,12 @@ public class ListItem implements Serializable, Parcelable {
      * holds the date that the item is due.
      * format: mm/dd
      */
-    private String dueDate;
+    private Date dueDate;
 
+    /**
+     * Holds the primary key from the internal database to facilitate db operations
+     */
+    private int primaryKey;
 
     public String getTitle() {
         return title;
@@ -46,24 +56,47 @@ public class ListItem implements Serializable, Parcelable {
         this.priority = priority;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
     public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        try {
+            this.dueDate = dateFormat.parse(dueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while trying to get items from database");
+
+        }
     }
 
-    public ListItem(String title, int priority, String dueDate) {
+    public void setDueDate(Date date) {
+        this.dueDate = date;
+    }
+
+    public void setPrimaryKey(int primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+    public int getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public ListItem(String title, int priority, Date dueDate) {
         this.dueDate = dueDate;
         this.priority = priority;
         this.title = title;
+        this.primaryKey = -1;
     }
 
     public ListItem() {
-        dueDate = "";
+        dueDate = new Date();
         priority = 0;
         title = "";
+        primaryKey = 0;
     }
 
     /**
@@ -72,16 +105,8 @@ public class ListItem implements Serializable, Parcelable {
     public static Comparator<ListItem> ListItemDateComparator = new Comparator<ListItem>() {
 
         public int compare(ListItem item1, ListItem item2) {
-            String dueDate1 = item1.getDueDate();
-            String dueDate2 = item2.getDueDate();
-
-            if (dueDate1.length() > 1 && dueDate1.substring(0, 1).equals("0")) {
-                dueDate1 = dueDate1.split("0")[1];
-            }
-
-            if (dueDate2.length() > 1 && dueDate2.substring(0, 1).equals("0")) {
-                dueDate2 = dueDate2.split("0")[1];
-            }
+            Date dueDate1 = item1.getDueDate();
+            Date dueDate2 = item2.getDueDate();
 
             //ascending order
             return dueDate1.compareTo(dueDate2);
@@ -106,16 +131,8 @@ public class ListItem implements Serializable, Parcelable {
 	   /*For descending order*/
             int diff = priority2-priority1;
             if (diff == 0) {
-                String dueDate1 = item1.getDueDate();
-                String dueDate2 = item2.getDueDate();
-                if (dueDate1.length() > 1 && dueDate1.substring(0, 1).equals("0")) {
-                    dueDate1 = dueDate1.split("0")[1];
-                }
-
-                if (dueDate2.length() > 1 && dueDate2.substring(0, 1).equals("0")) {
-                    dueDate2 = dueDate2.split("0")[1];
-                }
-
+                Date dueDate1 = item1.getDueDate();
+                Date dueDate2 = item2.getDueDate();
                 //ascending order
                 return dueDate1.compareTo(dueDate2);
             }
@@ -136,7 +153,8 @@ public class ListItem implements Serializable, Parcelable {
     protected ListItem(Parcel in) {
         title = in.readString();
         priority = in.readInt();
-        dueDate = in.readString();
+        dueDate = new Date(in.readString());
+        primaryKey = in.readInt();
     }
 
     @Override
@@ -156,7 +174,8 @@ public class ListItem implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeInt(priority);
-        dest.writeString(dueDate);
+        dest.writeString(dueDate.toString());
+        dest.writeInt(primaryKey);
     }
 
     @SuppressWarnings("unused")

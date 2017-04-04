@@ -73,7 +73,7 @@
         android:layout_above="@+id/imageButton8" />
 
     <Button
-        android:text="Add Item"
+        android:text="Options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

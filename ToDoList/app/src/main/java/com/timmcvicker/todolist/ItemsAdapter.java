@@ -53,7 +53,7 @@ public class ItemsAdapter extends ArrayAdapter<ListItem> {
         RatingBar tvPriority = (RatingBar) convertView.findViewById(R.id.ratingBar);
 
         // Populate the data into the template view using the data object
-        tvDate.setText(item.getDueDate());
+        tvDate.setText(item.getDueDate().getMonth()+1 + "/" + item.getDueDate().getDate() + "/" + item.getDueDate().getYear());
         tvTitle.setText(item.getTitle());
         tvPriority.setRating(item.getPriority());
 

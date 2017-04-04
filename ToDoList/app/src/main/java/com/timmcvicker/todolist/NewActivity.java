@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Activity that will represent the new item/edit item page
@@ -30,7 +33,7 @@ public class NewActivity extends AppCompatActivity {
 
 
     private EditText descriptionField;
-    private EditText dateField;
+    private DatePicker dateField;
     private RatingBar priorityRatingBar;
 
     /**
@@ -46,7 +49,8 @@ public class NewActivity extends AppCompatActivity {
         listItem = getIntent().getParcelableExtra("listItem");
         Button button = (Button) findViewById(R.id.button);
         descriptionField = (EditText) findViewById(R.id.descriptionField);
-        dateField = (EditText) findViewById(R.id.dateField);
+        dateField = (DatePicker) findViewById(R.id.datePicker);
+        dateField.setMinDate(System.currentTimeMillis() - 1000);
         priorityRatingBar = (RatingBar) findViewById(R.id.priorityRatingBar);
         databaseHelper = ItemsDatabaseHelper.getInstance(NewActivity.this);
 
@@ -65,7 +69,7 @@ public class NewActivity extends AppCompatActivity {
             //edit state
             button.setText("Save");
             databaseHelper.deleteItem(listItem);
-            dateField.setText(listItem.getDueDate());
+            dateField.updateDate(listItem.getDueDate().getYear(), listItem.getDueDate().getMonth(), listItem.getDueDate().getDay());
             descriptionField.setText(listItem.getTitle());
             priorityRatingBar.setRating(listItem.getPriority());
 
@@ -84,9 +88,15 @@ public class NewActivity extends AppCompatActivity {
     private void doUpdate() {
         listItem.setPriority((int) priorityRatingBar.getRating());
         listItem.setTitle(descriptionField.getText().toString());
-        listItem.setDueDate(dateField.getText().toString());
+        Date dueDate = new Date();
+        dueDate.setYear(dateField.getYear());
+        dueDate.setMonth(dateField.getMonth());
+        dueDate.setDate(dateField.getDayOfMonth());
+        listItem.setDueDate(dueDate);
 
-        databaseHelper.addOrUpdateItem(listItem);
+        long newItemId = databaseHelper.addOrUpdateItem(listItem, false);
+        listItem.setPrimaryKey((int) newItemId);
+
         Toast.makeText(NewActivity.this, "Updating Item!", Toast.LENGTH_SHORT).show();
         exitToMainList();
     }
@@ -95,9 +105,16 @@ public class NewActivity extends AppCompatActivity {
      * Will perform the necessary create operations on the listItem and then exit the activity
      */
     private void doCreate() {
-        listItem = new ListItem(descriptionField.getText().toString(), (int) priorityRatingBar.getRating(), dateField.getText().toString());
+        Date dueDate = new Date();
+        dueDate.setYear(dateField.getYear());
+        dueDate.setMonth(dateField.getMonth());
+        dueDate.setDate(dateField.getDayOfMonth());
 
-        databaseHelper.addOrUpdateItem(listItem);
+        listItem = new ListItem(descriptionField.getText().toString(), (int) priorityRatingBar.getRating(), dueDate);
+
+        long newItemId = databaseHelper.addOrUpdateItem(listItem, false);
+        listItem.setPrimaryKey((int) newItemId);
+
         Toast.makeText(NewActivity.this, "Creating Item!", Toast.LENGTH_SHORT).show();
         exitToMainList();
     }
@@ -109,9 +126,9 @@ public class NewActivity extends AppCompatActivity {
      * @param descriptionField the title to be persisted
      * @param create_ind indicator for persistence of listItem; true creates the item, false updates it
      */
-    private void validateEntries(RatingBar priorityRatingBar, EditText dateField, EditText descriptionField, boolean create_ind) {
+    private void validateEntries(RatingBar priorityRatingBar, DatePicker dateField, EditText descriptionField, boolean create_ind) {
         //all fields are not filled out
-        if (priorityRatingBar.getRating() == 0 || dateField.getText().toString().isEmpty() || descriptionField.getText().toString().isEmpty()) {
+        if (priorityRatingBar.getRating() == 0 || descriptionField.getText().toString().isEmpty()) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(NewActivity.this);
             dialog.setCancelable(false);
             dialog.setTitle("Edit Item");
@@ -125,7 +142,7 @@ public class NewActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (listItem != null) {
-                                databaseHelper.addOrUpdateItem(listItem);
+                                databaseHelper.addOrUpdateItem(listItem, false);
                             }
                             exitToMainList();
                         }
@@ -156,7 +173,9 @@ public class NewActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (listItem != null) {
-            databaseHelper.addOrUpdateItem(listItem);
+            long newItemId = databaseHelper.addOrUpdateItem(listItem, false);
+            listItem.setPrimaryKey((int) newItemId);
+
         }
         super.onBackPressed();
     }

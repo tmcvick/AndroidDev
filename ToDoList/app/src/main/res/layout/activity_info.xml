@@ -40,7 +40,7 @@
                 android:paddingTop="12dp" />
 
             <TextView
-                android:text="for Assignment 2 in CPSC4820, Spring 2017"
+                android:text="for Assignment 3 in CPSC4820, Spring 2017"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3"
@@ -72,7 +72,7 @@
                 android:paddingTop="20sp" />
 
             <TextView
-                android:text="The app makes use of a SQLite internal database. It also makes use of new widgets such as a rating bar and a switch. Finally, it persists items as a user would expect while using the back button and cancel buttons."
+                android:text="The app makes use of a SQLite internal database using lazy deletes. It includes an external database, which is controlled using an authoring tool. It also makes use of new widgets such as a rating bar and a switch, as well as a DatePicker. Finally, it persists items as a user would expect while using the back button and cancel buttons."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView7"
@@ -89,7 +89,7 @@
                 android:textSize="32sp" />
 
             <TextView
-                android:text="I used Codepath.com to learn how to connect my local database with an ArrayAdapter.  I also listened to Rob Percival's Android Tutorial to learn about basic widgets and images.  I also used the Android Studio developer guides to learn about ListViews"
+                android:text="I used Codepath.com to learn how to connect my local database with an ArrayAdapter.  I also listened to Rob Percival's Android Tutorial to learn about basic widgets and images.  I also used the Android Studio developer guides to learn about ListViews.  I used simplifiedCoding.com to learn how to sync up two databases."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView9"

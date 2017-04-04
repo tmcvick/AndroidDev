@@ -43,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
     private ItemsAdapter adapter;
 
     private Context context = this;
+    private boolean deleted_flag = false;
 
     /**
      * Sets up the app homepage and loads all listeners
@@ -91,6 +92,7 @@ public class ListActivity extends AppCompatActivity {
         }
 
         ItemsDatabaseHelper databaseHelper = ItemsDatabaseHelper.getInstance(this);
+        databaseHelper.syncData(context);
 
         // populate the data source
         arrayOfItems = databaseHelper.getAllItems();
@@ -116,17 +118,35 @@ public class ListActivity extends AppCompatActivity {
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        ItemsDatabaseHelper databaseHelper = ItemsDatabaseHelper.getInstance(ListActivity.this);
+                        //alert dialog for clicking on an item
+                        AlertDialog.Builder dialog2 = new AlertDialog.Builder(ListActivity.this);
+                        dialog2.setCancelable(false);
+                        dialog2.setTitle("Delete Item");
+                        dialog2.setMessage("Are you sure you want to delete this item?" );
+                        dialog2.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
 
-                        databaseHelper.deleteItem(listItem);
-                        arrayOfItems = databaseHelper.getAllItems();
+                                ItemsDatabaseHelper databaseHelper = ItemsDatabaseHelper.getInstance(ListActivity.this);
 
-                        Collections.sort(arrayOfItems, comparator);
-                        // Create the adapter to convert the array to views
-                        adapter = new ItemsAdapter(ListActivity.this, arrayOfItems);
-                        // Attach the adapter to a ListView
-                        ListView listView = (ListView) findViewById(R.id.listView);
-                        listView.setAdapter(adapter);
+                                databaseHelper.deleteItem(listItem);
+                                arrayOfItems = databaseHelper.getAllItems();
+
+                                Collections.sort(arrayOfItems, comparator);
+                                // Create the adapter to convert the array to views
+                                adapter = new ItemsAdapter(ListActivity.this, arrayOfItems);
+                                // Attach the adapter to a ListView
+                                ListView listView = (ListView) findViewById(R.id.listView);
+                                listView.setAdapter(adapter);
+                            }
+                        })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                        final AlertDialog alert2 = dialog2.create();
+                        alert2.show();
                     }
                 })
                         .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
@@ -152,7 +172,62 @@ public class ListActivity extends AppCompatActivity {
      * @param view the buttont that is clicked
      */
     public void addItem(View view) {
-        switchToEditPage(null);
+        //alert dialog for clicking on an options button
+        AlertDialog.Builder dialog = new AlertDialog.Builder(ListActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle("Options");
+        dialog.setMessage("What would you like to do?" );
+        dialog.setPositiveButton("Add Item", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                switchToEditPage(null);
+            }
+        });
+        if (!deleted_flag) {
+            dialog.setNegativeButton("See Deleted Entries", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ItemsDatabaseHelper databaseHelper = ItemsDatabaseHelper.getInstance(ListActivity.this);
+
+                    // populate the data source
+                    arrayOfItems = databaseHelper.getAllDeletedItems();
+
+                    // Create the adapter to convert the array to views
+                    adapter = new ItemsAdapter(ListActivity.this, arrayOfItems);
+
+                    // Attach the adapter to a ListView
+                    ListView listView = (ListView) findViewById(R.id.listView);
+                    listView.setAdapter(adapter);
+                    deleted_flag = true;
+                }
+            });
+        } else {
+            dialog.setNegativeButton("See All Entries", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ItemsDatabaseHelper databaseHelper = ItemsDatabaseHelper.getInstance(ListActivity.this);
+
+                    // populate the data source
+                    arrayOfItems = databaseHelper.getAllItems();
+
+                    // Create the adapter to convert the array to views
+                    adapter = new ItemsAdapter(ListActivity.this, arrayOfItems);
+
+                    // Attach the adapter to a ListView
+                    ListView listView = (ListView) findViewById(R.id.listView);
+                    listView.setAdapter(adapter);
+                    deleted_flag = false;
+                }
+            });
+        }
+                dialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        final AlertDialog alert = dialog.create();
+        alert.show();
     }
 
     /**
